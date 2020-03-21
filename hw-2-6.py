@@ -65,7 +65,6 @@ for a, b in n_goods:  # проходимся по всем ключам наше
 
 for a, b in n_goods:  # проходимся по всем ключам нашей базы и добавляем значения по каждому ключу
     for i in b:
-        print(i, b.get(i))
         my_dict.get(i).append(b.get(i))
 
 print(my_dict)
