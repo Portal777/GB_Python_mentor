@@ -11,33 +11,55 @@
 Подсказка: сложение элементов матриц выполнять поэлементно — первый элемент первой строки первой матрицы складываем
 с первым элементом первой строки второй матрицы и т.д.
 """
-from itertools import starmap, zip_longest
-from operator import add
 
 
 class Matrix:
 
-    def __init__(self, matrix_list):
-        self.mtx_list = matrix_list
+    def __init__(self, mtx):
+        self.matrix = mtx
 
     def __str__(self):
-        return "".join(str(self.mtx_list)).replace(",", "").replace("[", "\n").replace("]", "")
+        matrix_print_text = ""
+        for i in self.matrix:
+            matrix_print_text = matrix_print_text + str(i) + "\n"
+        return matrix_print_text
 
     def __add__(self, other):
-        if len(self.mtx_list) < len(other.mtx_list):
-            self.mtx_list = self.mtx_list + [[] for i in range(len(other.mtx_list)-len(self.mtx_list))]
+        result = []
+        for f_list, s_list in zip(self.matrix, other.matrix):
+            my_list = []
+            for f_elem, s_elem in zip(f_list, s_list):
+                my_list.append(f_elem + s_elem)
+            result.append(my_list)
+        # result = [[g + z for g in i for z in x] for i in self.matrix for x in other.matrix]
+        result_list = Matrix(result)  # лучшая строка в коде
+        return result_list
 
-        elif len(self.mtx_list) > len(other.mtx_list):
-            other.mtx_list = other.mtx_list + [[] for i in range(len(self.mtx_list)-len(other.mtx_list))]
 
-        result = list(starmap(add, zip_longest(self.mtx_list, other.mtx_list, fillvalue=0)))
+a = Matrix([
+    [1123, 213, 3],
+    [4123, 513, 633],
+    [65, 1, 77],
+    [82, 22, 123]
+])
 
-        return "".join(str(result)).replace(",", "").replace("[", "\n").replace("]", "")
+b = Matrix([
+    [56, 1, 99],
+    [0, 58, 23],
+    [98, 19, 44],
+    [1, 4, 0]
+])
 
-
-a = Matrix([[1123, 213, 3], [4123, 513, 633]])
-b = Matrix([[1, 2, 3], [4, 51], [0, 1, 0], [132], [123, 123, 12, 3233, 3]])
+c = Matrix([
+    [113, 2, 4],
+    [41, 80, 21],
+    [1, 23, 62],
+    [2, 22, 13]
+])
 
 print(a)
 print(b)
-print(a + b)
+print(c)
+
+print(b + c)
+print(a + b + c)
