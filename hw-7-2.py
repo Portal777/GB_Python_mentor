@@ -20,56 +20,45 @@
 from abc import ABC, abstractmethod
 
 
-def total_consumption(first, second):
-    # if isinstance(first, Coat): - ненужная проверка на принадлежность к классу (для знания)
-    print(f"Общий расход ткани: {round(first.fabric_consumption + second.fabric_consumption, 2)}")
-
-
 class Clothes(ABC):
     title = "Одежда"
+    cloth_calc = 0
 
-    def __init__(self):
-        pass
+    def __init__(self, parameter):
+        self.parameter = parameter
 
     @abstractmethod
-    def fabric_consumption(self):
+    def calc_fabric_consumption(self):
         pass
 
 
 class Coat(Clothes):
     title = "Пальто"
 
-    def __init__(self, V):
-        super().__init__()
-        self.V = V
-
     @property
-    def fabric_consumption(self):
-        return round(self.V / 6.5 + 0.5, 2)
+    def calc_fabric_consumption(self):
+        result = self.parameter / 6.5 + 0.5
+        Clothes.cloth_calc += result
+        return f"Расход ткани для {self.title} = {result}"
 
 
 class Suit(Clothes):
     title = "Костюм"
 
-    def __init__(self, H):
-        super().__init__()
-        self.H = H
-
     @property
-    def fabric_consumption(self):
-        return round(2 * self.H + 0.3, 2)
+    def calc_fabric_consumption(self):
+        result = 2 * self.parameter + 0.3
+        Clothes.cloth_calc += result
+        return f"Расход ткани для {self.title} = {result}"
 
 
-some = Clothes
-print(some.title)
+my_coat = Coat(48)
+my_coat_2 = Coat(52)
+my_suit = Suit(183)
+my_suit_2 = Suit(172)
 
-coat = Coat(48)
-print(coat.fabric_consumption)
-
-suit = Suit(183)
-print(suit.fabric_consumption)
-
-print(coat.title)
-print(suit.title)
-
-total_consumption(coat, suit)
+print(my_coat.calc_fabric_consumption)
+print(my_coat_2.calc_fabric_consumption)
+print(my_suit.calc_fabric_consumption)
+print(my_suit_2.calc_fabric_consumption)
+print(Clothes.cloth_calc)
