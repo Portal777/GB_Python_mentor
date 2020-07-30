@@ -17,41 +17,55 @@
 -Проверить на практике полученные на этом уроке знания: реализовать абстрактные классы для основных классов проекта,
 проверить на практике работу декоратора @property.
 """
-from abc import ABC, abstractmethod
 
 
-class Clothes(ABC):
+# from abc import ABC, abstractmethod
+
+
+class Clothes:  # (ABC):
     title = "Одежда"
-    cloth_calc = 0
 
-    def __init__(self, parameter):
-        self.parameter = parameter
+    def __init__(self):
+        self._calc = None
 
-    @abstractmethod
+    @property
+    # с @abstractmethod не работает строка 37
     def calc_fabric_consumption(self):
-        pass
+        return self._calc
+
+    def __add__(self, other):
+        # self.__class__.__name__ == "Coat":
+        result = Clothes()
+        result._calc = self._calc + other._calc
+        return result
+
+    def __str__(self):
+        return f'Общий расход ткани: {self._calc:.2f}'
 
 
 class Coat(Clothes):
     title = "Пальто"
 
+    def __init__(self, param):
+        self.parameter = param
+        super().__init__()
+
     @property
     def calc_fabric_consumption(self):
-        result = self.parameter / 6.5 + 0.5
-        Clothes.cloth_calc += result
-        return f"Расход ткани для {self.title} = {result}"
+        self._calc = self.parameter / (6.5 + 0.5)
+        return self._calc
 
 
-class Suit(Clothes):
+class Suit(Coat):
     title = "Костюм"
 
     @property
     def calc_fabric_consumption(self):
-        result = 2 * self.parameter + 0.3
-        Clothes.cloth_calc += result
-        return f"Расход ткани для {self.title} = {result}"
+        self._calc = 2 * (self.parameter + 0.3)
+        return self._calc
 
 
+a = Clothes
 my_coat = Coat(48)
 my_coat_2 = Coat(52)
 my_suit = Suit(183)
@@ -61,4 +75,6 @@ print(my_coat.calc_fabric_consumption)
 print(my_coat_2.calc_fabric_consumption)
 print(my_suit.calc_fabric_consumption)
 print(my_suit_2.calc_fabric_consumption)
-print(Clothes.cloth_calc)
+
+total = my_suit + my_suit_2 + my_coat + my_coat_2
+print(total)
