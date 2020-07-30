@@ -34,7 +34,6 @@ class Clothes:  # (ABC):
         return self._calc
 
     def __add__(self, other):
-        # self.__class__.__name__ == "Coat":
         result = Clothes()
         result._calc = self._calc + other._calc
         return result
