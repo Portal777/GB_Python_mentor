@@ -18,8 +18,7 @@
 проверить на практике работу декоратора @property.
 """
 
-
-# from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod
 
 
 class Clothes:  # (ABC):
@@ -29,12 +28,12 @@ class Clothes:  # (ABC):
         self._calc = None
 
     @property
-    # с @abstractmethod не работает строка 37
+    @abstractmethod
     def calc_fabric_consumption(self):
         return self._calc
 
     def __add__(self, other):
-        result = Clothes()
+        result = Coat(None)
         result._calc = self._calc + other._calc
         return result
 
@@ -75,5 +74,4 @@ print(my_coat_2.calc_fabric_consumption)
 print(my_suit.calc_fabric_consumption)
 print(my_suit_2.calc_fabric_consumption)
 
-total = my_suit + my_suit_2 + my_coat + my_coat_2
-print(total)
+print(my_suit + my_suit_2 + my_coat + my_coat_2)
