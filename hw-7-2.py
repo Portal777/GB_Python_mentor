@@ -21,7 +21,7 @@
 from abc import ABC, abstractmethod
 
 
-class Clothes:  # (ABC):
+class Clothes(ABC):
     title = "Одежда"
 
     def __init__(self):
